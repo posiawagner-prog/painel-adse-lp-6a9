@@ -1,0 +1,10 @@
+# Planilhas, backups e pacotes
+*.xlsx
+*.zip
+*_bak*
+site-publico/
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*

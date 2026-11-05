@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADSE — Painel 8º Ano (Diagnóstica · Percurso · Saída)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css?v=132" />
+  <script>
+    (function () {
+      var theme = localStorage.getItem("adse-theme");
+      document.documentElement.setAttribute("data-theme", theme === "light" ? "light" : "dark");
+    })();
+  </script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-rail">
+    <a class="logo" href="index.html" title="Painel 8º Ano">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" stroke="currentColor" stroke-width="1.8"/>
+        <path d="M8 7h8M8 11h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </a>
+    <nav class="chart-nav" id="chartNav" aria-label="Tipo de gráfico">
+      <button type="button" class="nav-btn active" data-chart="comparativo" title="Comparativo Diagnóstica × Percurso × Saída">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19V10M10 19V5M15 19v-7M20 19V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button type="button" class="nav-btn" data-chart="faixasRanking" title="Faixas de desempenho e Ranking">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3a9 9 0 1 1-9 9h9V3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M4 17h7M4 13h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button type="button" class="nav-btn" data-chart="questoes" title="Desempenho por questão">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7h8M8 12h8M8 17h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M5 5v14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button type="button" class="nav-btn" data-chart="proficiencia" title="Proficiência e níveis de aprendizado">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 20V10M9 20V6M14 20v-8M19 20V4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="19" cy="4" r="2.2" fill="currentColor"/>
+        </svg>
+      </button>
+    </nav>
+    <div class="sidebar-divider" aria-hidden="true"></div>
+    <nav aria-label="Tipo de visão">
+      <button class="nav-btn nav-btn-sm active" data-view="dashboard" title="Visão geral">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="nav-btn" data-view="table" title="Ranking de turmas">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </nav>
+    <button class="nav-btn nav-btn-sm" id="btnResetAll" title="Limpar filtros">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button type="button" class="nav-btn sidebar-print" id="btnPrintChart" title="Pré-visualizar e imprimir gráfico">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M7 9V4h10v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M7 15H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M7 13h10v7H7v-7z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M15 16h2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+    </div>
+  </aside>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-search">
+        <label class="search">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input id="searchInput" type="search" placeholder="Buscar escola ou turma..." autocomplete="off" />
+        </label>
+        <p class="topbar-hello">Olá, Wagner!</p>
+      </div>
+      <div class="topbar-date" id="todayLabel"></div>
+      <div class="topbar-actions">
+        <button type="button" class="icon-btn" id="btnFullscreen" title="Tela cheia (Esc para sair)" aria-pressed="false" aria-label="Entrar em tela cheia">
+          <svg class="fs-icon-expand" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 3H4v4M16 3h4v4M8 21H4v-4M16 21h4v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg class="fs-icon-compress" viewBox="0 0 24 24" fill="none" aria-hidden="true" hidden>
+            <path d="M9 3v4H5M15 3v4h4M9 21v-4H5M15 21v-4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button type="button" class="theme-switch" id="btnTheme" role="switch" aria-checked="false" aria-label="Ativar modo claro" title="Modo escuro">
+          <span class="theme-switch-track"><span class="theme-switch-knob"></span></span>
+        </button>
+        <button class="icon-btn" title="Dados da planilha ADSE">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.2.63.82 1.05 1.51 1.05H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+        <div class="avatar" title="Wagner">W</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-greet">
+        <div class="brand-block">
+          <img class="brand-logo" src="assets/logo-prefeitura.png" alt="Prefeitura de São José da Tapera" />
+        </div>
+        <div class="hero-title-block">
+          <h2 class="hero-title">
+            <span>Avaliação de Desempenho da Secretaria de Educação - ADSE</span>
+            <span>Língua Portuguesa · Diagnóstica · Percurso · Saída 2026</span>
+          </h2>
+          <p>Clique nos gráficos para filtrar o painel.</p>
+        </div>
+        <img class="brand-logo" src="assets/logo-semed.png" alt="SEMED - Secretaria Municipal de Educação" />
+      </div>
+      <div class="filters" id="filterBar">
+        <label class="select">
+          <span>Ano</span>
+          <select id="filterAno">
+            <option value="8">8º ano</option>
+            <option value="9">9º ano</option>
+          </select>
+        </label>
+        <label class="select">
+          <span>Visão</span>
+          <select id="filterVisao">
+            <option value="turmas">Por turma</option>
+            <option value="escolas">Por escola</option>
+          </select>
+        </label>
+        <label class="select">
+          <span>Disciplina</span>
+          <select id="filterDisciplina">
+            <option value="lp" selected>Língua Portuguesa</option>
+          </select>
+        </label>
+        <label class="select">
+          <span>Escola</span>
+          <select id="filterEscola"></select>
+        </label>
+        <label class="select">
+          <span>Turma</span>
+          <select id="filterTurma"></select>
+        </label>
+        <label class="select">
+          <span>Período</span>
+          <select id="filterPeriodo">
+            <option value="comparativo">Comparativo</option>
+            <option value="diagnostica">Diagnóstica</option>
+            <option value="percurso">Percurso</option>
+            <option value="saida" selected>Saída</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="chips" id="chips" hidden></div>
+
+      <div class="kpi-strip" id="kpiStrip">
+        <div class="stats-col" id="kpiLeft"></div>
+        <div class="stats-col" id="kpiRight"></div>
+      </div>
+    </section>
+
+    <main>
+      <section id="viewDashboard">
+        <div class="chart-panel" data-panel="comparativo" id="panelComparativo">
+          <article class="card chart-card chart-card-full">
+            <div class="card-head card-head-comparativo">
+              <div>
+                <h2 id="chartComparativoTitle">Diagnóstica × Percurso × Saída</h2>
+                <p id="chartComparativoSub">Comparativo de médias por unidade escolar</p>
+              </div>
+              <ul class="legend compact" id="comparativoLegend" aria-label="Legenda do comparativo"></ul>
+            </div>
+            <div class="chart-wrap tall comparativo">
+              <div class="comparativo-y-axis" id="comparativoYAxis" aria-hidden="true"></div>
+              <div class="chart-comparativo-scroll" id="chartComparativoScroller">
+                <div class="chart-comparativo-inner" id="chartComparativoWrap">
+                  <canvas id="chartComparativo"></canvas>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="chart-panel" data-panel="faixasRanking" id="panelFaixasRanking" hidden>
+          <div class="layout-bottom">
+            <article class="card chart-card">
+              <div class="card-head">
+                <div>
+                  <h2 id="chartDonutTitle">Faixas de desempenho</h2>
+                  <p id="chartDonutSub">Clique em um segmento para filtrar</p>
+                </div>
+              </div>
+              <div class="donut-layout">
+                <div class="chart-wrap donut">
+                  <canvas id="chartDonut"></canvas>
+                </div>
+                <ul class="legend" id="donutLegend"></ul>
+              </div>
+            </article>
+
+            <div class="ranking-slot">
+              <article class="card chart-card" id="cardRankingTurma">
+                <div class="card-head">
+                  <div>
+                    <h2 id="chartRankingTitle">Ranking</h2>
+                    <p id="chartRankingSub">Média geral por turma · clique para filtrar</p>
+                  </div>
+                </div>
+                <div class="chart-wrap escolas" id="chartRankingWrap">
+                  <canvas id="chartRanking"></canvas>
+                </div>
+              </article>
+
+              <article class="card chart-card" id="cardRankingEscola">
+                <div class="card-head">
+                  <div>
+                    <h2 id="chartRankingEscolasTitle">Ranking por escola</h2>
+                    <p id="chartRankingEscolasSub">Média ponderada · turmas agrupadas · clique para filtrar</p>
+                  </div>
+                  <ul class="legend compact" id="rankingEscolasLegend"></ul>
+                </div>
+                <div class="chart-wrap escolas comparativo" id="chartRankingEscolasWrap">
+                  <canvas id="chartRankingEscolas"></canvas>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-panel" data-panel="questoes" id="panelQuestoes" hidden>
+          <article class="card chart-card chart-card-full">
+            <div class="card-head chart-head-questoes">
+              <div>
+                <h2 id="chartQuestoesTitle">Desempenho por questão</h2>
+                <p>Média percentual de acerto nas questões da avaliação</p>
+              </div>
+              <div class="chart-tab" id="chartQuestoesAvaliados" aria-label="Alunos avaliados">
+                <span class="chart-tab-label">Alunos avaliados</span>
+                <strong class="chart-tab-value">0</strong>
+              </div>
+            </div>
+            <div class="questoes-layout">
+              <ul class="legend questoes-legend" id="questoesLegend" aria-label="Legenda de faixas de desempenho"></ul>
+              <div class="chart-wrap tall">
+                <canvas id="chartQuestoes"></canvas>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="chart-panel" data-panel="proficiencia" id="panelProficiencia" hidden>
+          <div class="prof-hero">
+            <div class="prof-hero-copy">
+              <p class="prof-kicker">Língua Portuguesa · 8º Ano</p>
+              <h2 id="chartProficienciaTitle">Mapa de Proficiência</h2>
+              <p id="chartProficienciaSub">Escala de proficiência, níveis e classificação de aprendizado por período</p>
+            </div>
+          </div>
+
+          <div class="layout-bottom prof-layout">
+            <article class="card chart-card prof-card-rings">
+              <div class="card-head">
+                <div>
+                  <h2>Aprendizado</h2>
+                  <p>Classificação das turmas</p>
+                </div>
+              </div>
+              <div class="donut-layout">
+                <div class="chart-wrap donut">
+                  <canvas id="chartAprendizado"></canvas>
+                </div>
+                <ul class="legend" id="aprendizadoLegend"></ul>
+              </div>
+              <div class="prof-niveis" id="profNiveis" aria-label="Distribuição por nível e aprendizado"></div>
+            </article>
+
+            <article class="card chart-card">
+              <div class="card-head">
+                <div>
+                  <h2 id="chartProfBarsTitle">Ranking de proficiência</h2>
+                  <p id="chartProfBarsSub">Escala de proficiência · clique para filtrar a turma</p>
+                </div>
+                <ul class="legend compact" id="proficienciaLegend"></ul>
+              </div>
+              <div class="chart-wrap escolas tall" id="chartProficienciaWrap">
+                <canvas id="chartProficiencia"></canvas>
+              </div>
+              <div class="prof-scale-legend" id="profScaleLegend" aria-label="Escala de proficiência — Língua Portuguesa">
+                <div class="prof-scale-group" data-band="insuficiente">
+                  <span class="prof-scale-title">Insuficiente</span>
+                  <ul class="prof-scale-levels">
+                    <li><span class="niveis-pill" style="--nivel-color:#FF3B30">NÍVEL 0</span><span>0 – 199 pts</span></li>
+                  </ul>
+                </div>
+                <div class="prof-scale-group" data-band="basico">
+                  <span class="prof-scale-title">Básico</span>
+                  <ul class="prof-scale-levels">
+                    <li><span class="niveis-pill" style="--nivel-color:#FF6B4A">NÍVEL 1</span><span>200 – 224 pts</span></li>
+                    <li><span class="niveis-pill" style="--nivel-color:#FF9F0A">NÍVEL 2</span><span>225 – 249 pts</span></li>
+                    <li><span class="niveis-pill" style="--nivel-color:#FFD60A">NÍVEL 3</span><span>250 – 274 pts</span></li>
+                  </ul>
+                </div>
+                <div class="prof-scale-group" data-band="proficiente">
+                  <span class="prof-scale-title">Proficiente</span>
+                  <ul class="prof-scale-levels">
+                    <li><span class="niveis-pill" style="--nivel-color:#5B9AFF">NÍVEL 4</span><span>275 – 299 pts</span></li>
+                    <li><span class="niveis-pill" style="--nivel-color:#3D7BFF">NÍVEL 5</span><span>300 – 324 pts</span></li>
+                  </ul>
+                </div>
+                <div class="prof-scale-group" data-band="avancado">
+                  <span class="prof-scale-title">Avançado</span>
+                  <ul class="prof-scale-levels">
+                    <li><span class="niveis-pill" style="--nivel-color:#30D158">NÍVEL 6</span><span>325 – 349 pts</span></li>
+                    <li><span class="niveis-pill" style="--nivel-color:#00C2A0">NÍVEL 7</span><span>350 – 374 pts</span></li>
+                    <li><span class="niveis-pill" style="--nivel-color:#00A3FF">NÍVEL 8</span><span>≥ 375 pts</span></li>
+                  </ul>
+                </div>
+              </div>
+              <p class="prof-empty" id="profEmpty" hidden>Proficiência disponível na Diagnóstica de Língua Portuguesa. Selecione LP ou Geral para visualizar.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="viewTable" hidden>
+        <div class="status-row" id="statusRow"></div>
+        <article class="card table-card">
+          <div class="table-toolbar">
+            <div>
+              <strong id="tableCount">0 registros</strong>
+              <span class="muted" id="tableScope"> · Língua Portuguesa · 8º ano · Saída</span>
+            </div>
+            <div class="table-actions">
+              <button class="btn" id="btnExport">Exportar CSV</button>
+            </div>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th data-sort="ranking">Ranking</th>
+                  <th data-sort="escola">Escola</th>
+                  <th class="num" data-sort="turma">Turma</th>
+                  <th class="num" data-sort="previstos">Previstos</th>
+                  <th class="num" data-sort="avaliados">Avaliados</th>
+                  <th class="num" data-sort="participacao">Participação %</th>
+                  <th class="num" data-sort="mediaLp">Português %</th>
+                  <th class="num" data-sort="mediaGeral">Média geral %</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+          <div class="pagination">
+            <span id="pageInfo">1 de 1</span>
+            <button class="icon-btn" id="pagePrev" aria-label="Página anterior">&lt;</button>
+            <button class="icon-btn" id="pageNext" aria-label="Próxima página">&gt;</button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <div class="print-preview" id="printPreview" hidden>
+    <div class="print-preview-backdrop" data-close-preview></div>
+    <div class="print-preview-dialog" role="dialog" aria-modal="true" aria-labelledby="printPreviewTitle">
+      <header class="print-preview-head">
+        <div>
+          <h2 id="printPreviewTitle">Pré-visualização</h2>
+          <p id="printPreviewSub">Confira o gráfico em alta resolução antes de imprimir ou baixar o PDF</p>
+        </div>
+        <button type="button" class="icon-btn" id="btnClosePreview" aria-label="Fechar pré-visualização" data-close-preview>&times;</button>
+      </header>
+      <section class="print-preview-filters" aria-label="Filtros aplicados">
+        <p class="print-preview-filters-label">Filtros aplicados</p>
+        <ul class="print-preview-chips" id="printPreviewFilters"></ul>
+      </section>
+      <div class="print-preview-body">
+        <img id="printPreviewImg" alt="Pré-visualização do gráfico" />
+        <div id="printPreviewHtml" class="print-preview-html" hidden></div>
+      </div>
+      <footer class="print-preview-actions">
+        <button type="button" class="btn" data-close-preview>Cancelar</button>
+        <button type="button" class="btn" id="btnDownloadPdf">Baixar PDF</button>
+        <button type="button" class="btn btn-primary" id="btnConfirmPrint">Imprimir</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="dados.js?v=8e9ano-filtro"></script>
+  <script src="app-aprendizado.js?v=fullscreen-topbar-20261105"></script>
+</body>
+</html>
